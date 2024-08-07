@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using parallel.ef.core.Model;
 
 namespace parallel.ef.core.Services
 {
@@ -6,8 +7,8 @@ namespace parallel.ef.core.Services
     {
         Task<Doctor> GetDoctorById(int id, FacilityCode facilityCode);
         Task<IEnumerable<Doctor>> GetAllDoctors(FacilityCode facilityCode);
-        Task<void> AddDoctor(Doctor doctor, FacilityCode facilityCode);
-        Task<void> UpdateDoctor(Doctor doctor);
-        Task<void> DeleteDoctor(int id, FacilityCode facilityCode);
+        Task AddDoctor(Doctor doctor, FacilityCode facilityCode);
+        Task UpdateDoctor(Doctor doctor);
+        Task DeleteDoctor(int id, FacilityCode facilityCode);
     }
 }

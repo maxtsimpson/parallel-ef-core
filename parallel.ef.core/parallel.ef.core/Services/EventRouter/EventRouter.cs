@@ -1,45 +1,38 @@
+using parallel.ef.core.Handlers;
 using parallel.ef.core.Services;
+using System.Text.Json;
 
 public class EventRouter : IEventRouter
 {
-    public async Task<bool> ProcessEvent(EventData messageEvent)
+    private readonly ILogger<EventRouter> _logger;
+    private readonly IDictionary<EventType,IEventHandler<IEventData>> _handlers;
+
+    public EventRouter(IDictionary<EventType, IEventHandler<IEventData>> eventHandlers, ILogger<EventRouter> logger)
     {
-        bool isSuccessfullyProcessed = false;
+        _logger = logger;
+        _handlers = eventHandlers;
+    }
 
-		try
-		{
-            if (messageEvent.EventType == EventType.UpdateDoctor)
-            {
+    public IEventHandler<IEventData>? GetEventHandler(EventType eventType)
+    {
+        return _handlers[eventType];
+    }
 
-            }
+    public async Task ProcessEvent(IEventData eventData)
+    {
+        try
+        {
+            var handler = GetEventHandler(eventData.EventType);
+            if (handler == null)
+                return;
 
-            switch (messageEvent.FacilityCode)
-            {
-                case FacilityCode.South:
-                    // Code for Facility Code 1
-                    break;
-                case FacilityCode.North:
-                    // Code for Facility Code 2
-                    break;
-                case FacilityCode.East:
-                    // Code for Facility Code 3
-                    break;
-                case FacilityCode.West:
-                    // Code for Facility Code 3
-                    break;
-                // Add more cases for other Facility Codes as needed
-                default:
-                    // Code for handling unknown Facility Codes
-                    break;
-            }
-            isSuccessfullyProcessed = true;
+            await handler.ProcessEvent(eventData);
         }
-		catch (Exception)
-		{
-
-			return false;
-		}
-
-        return isSuccessfullyProcessed;
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "error trying to process event {0}", JsonSerializer.Serialize(eventData));
+            throw;
+        }
+        
     }
 }

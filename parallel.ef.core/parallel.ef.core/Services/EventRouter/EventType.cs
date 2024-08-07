@@ -4,5 +4,6 @@ public enum EventType
     UpdateDoctor,
     DeleteDoctor,
     GetDoctorById,
-    GetAllDoctors
+    GetAllDoctors,
+    AddDoctor
 }

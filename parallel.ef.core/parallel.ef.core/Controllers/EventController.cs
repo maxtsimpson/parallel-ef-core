@@ -1,31 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using parallel.ef.core.Model.Events;
-using parallel.ef.core.Services;
+using System.Net;
+using parallel.ef.core.Model;
 using Swashbuckle.AspNetCore.Annotations;
+using parallel.ef.core.Services;
 
 namespace parallel.ef.core.Controllers
 {
-    public class DoctorController : ControllerBase
+    public class EventController: ControllerBase
     {
-        private readonly ILogger<DoctorController> _logger;
+        private readonly ILogger<EventController> _logger;
         private readonly IEventRouter _eventRouter;
 
-        public DoctorController(ILogger<DoctorController> logger, IEventRouter eventRouter)
+        public EventController(ILogger<EventController> logger, IEventRouter eventRouter)
         {
             _logger = logger;
             _eventRouter = eventRouter;
         }
 
-        [HttpPost("UpdateDoctor")]
-        [SwaggerOperation(Summary = "Post a doctor update event")]
+        [HttpPost("PostMessageEvent")]
+        [SwaggerOperation(Summary = "Post a message event for processing")]
         //[ProducesResponseType(typeof(GetScriptListResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> UpdateDoctor(UpdateDoctorEvent updateDoctorEvent)
+        public async Task<IActionResult> PostMessage(IRequest request)
         {
             _logger.LogInformation("request message received");
 
             //call event handlers in sequence that handle this type of event message
-            await _eventRouter.ProcessEvent(updateDoctorEvent);
-
+            await _eventRouter.ProcessEvent(request.eventData);
+            
             return Ok();
         }
     }

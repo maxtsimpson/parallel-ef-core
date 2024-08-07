@@ -17,17 +17,17 @@ namespace parallel.ef.core.Services
             throw new NotImplementedException();
         }
 
-        public Task<void> AddDoctor(Doctor doctor, FacilityCode facilityCode)
+        public Task AddDoctor(Doctor doctor, FacilityCode facilityCode)
         {
             throw new NotImplementedException();
         }
 
-        public Task<void> UpdateDoctor(Doctor doctor)
+        public Task UpdateDoctor(Doctor doctor)
         {
             throw new NotImplementedException();
         }
 
-        public Task<void> DeleteDoctor(int id, FacilityCode facilityCode)
+        public Task DeleteDoctor(int id, FacilityCode facilityCode)
         {
             throw new NotImplementedException();
         }

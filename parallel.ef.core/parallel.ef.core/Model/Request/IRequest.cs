@@ -1,5 +1,6 @@
+using parallel.ef.core.Model.Request;
+
 public interface IRequest
 {
-    public EventData eventData { get; set; }
-    public object requestBody { get; set; }
+    public IEventData eventData { get; set; }
 }

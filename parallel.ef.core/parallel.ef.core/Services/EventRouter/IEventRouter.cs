@@ -1,7 +1,11 @@
+using parallel.ef.core.Handlers;
+
 namespace parallel.ef.core.Services
 {
     public interface IEventRouter
     {
-        Task<bool> ProcessEvent(EventData messageEvent);
+        Task ProcessEvent(IEventData messageEvent);
+
+        IEventHandler<IEventData>? GetEventHandler(EventType eventType);
     }
 }
