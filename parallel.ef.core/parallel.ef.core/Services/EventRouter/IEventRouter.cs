@@ -4,7 +4,9 @@ namespace parallel.ef.core.Services
 {
     public interface IEventRouter
     {
-        Task ProcessEvent(IEventData messageEvent);
+        Task ProcessSingleEvent(IEventData messageEvent);
+
+        Task ProcessMultipleEvents(IEventData[] messageEvents);
 
         IEventHandler<IEventData>? GetEventHandler(EventType eventType);
     }

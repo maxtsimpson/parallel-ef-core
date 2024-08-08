@@ -20,12 +20,12 @@ namespace parallel.ef.core.Controllers
         [HttpPost("PostMessageEvent")]
         [SwaggerOperation(Summary = "Post a message event for processing")]
         //[ProducesResponseType(typeof(GetScriptListResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PostMessage(IRequest request)
+        public async Task<IActionResult> PostMessage(IEventData eventData)
         {
             _logger.LogInformation("request message received");
 
             //call event handlers in sequence that handle this type of event message
-            await _eventRouter.ProcessEvent(request.eventData);
+            await _eventRouter.ProcessSingleEvent(eventData);
             
             return Ok();
         }

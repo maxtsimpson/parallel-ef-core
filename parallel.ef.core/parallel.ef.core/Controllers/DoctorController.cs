@@ -24,7 +24,7 @@ namespace parallel.ef.core.Controllers
             _logger.LogInformation("request message received");
 
             //call event handlers in sequence that handle this type of event message
-            await _eventRouter.ProcessEvent(updateDoctorEvent);
+            await _eventRouter.ProcessSingleEvent(updateDoctorEvent);
 
             return Ok();
         }

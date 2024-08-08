@@ -2,5 +2,5 @@ using parallel.ef.core.Model.Request;
 
 public interface IRequest
 {
-    public IEventData eventData { get; set; }
+    public IEventData[] eventData { get; set; }
 }
