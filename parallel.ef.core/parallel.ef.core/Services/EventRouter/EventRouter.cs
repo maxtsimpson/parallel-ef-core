@@ -1,3 +1,4 @@
+using Microsoft.Extensions.DependencyInjection;
 using parallel.ef.core.Handlers;
 using parallel.ef.core.Services;
 using System.Linq;
@@ -6,17 +7,37 @@ using System.Text.Json;
 public class EventRouter : IEventRouter
 {
     private readonly ILogger<EventRouter> _logger;
-    private readonly IDictionary<EventType, IEventHandler<IEventData>> _handlers;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public EventRouter(IDictionary<EventType, IEventHandler<IEventData>> eventHandlers, ILogger<EventRouter> logger)
+    public EventRouter(ILogger<EventRouter> logger, IServiceScopeFactory serviceScopeFactory)
     {
+        _serviceScopeFactory = serviceScopeFactory;
         _logger = logger;
-        _handlers = eventHandlers;
+        //_handlers = eventHandlers;
+
     }
 
     public IEventHandler<IEventData>? GetEventHandler(EventType eventType)
     {
-        return _handlers[eventType];
+        var scope = _serviceScopeFactory.CreateScope();
+        switch (eventType)
+        {
+            case EventType.CreateDoctor:
+                return (IEventHandler<IEventData>?)scope.ServiceProvider.GetRequiredService<AddDoctorHandler>();
+            case EventType.UpdateDoctor:
+                return (IEventHandler<IEventData>?)scope.ServiceProvider.GetRequiredService<UpdateDoctorHandler>();
+            case EventType.DeleteDoctor:
+                break;
+            case EventType.GetDoctorById:
+                break;
+            case EventType.GetAllDoctors:
+                break;
+            case EventType.AddDoctor:
+                break;
+            default:
+                break;
+        }
+        return null;
     }
 
     public async Task ProcessSingleEvent(IEventData eventData)
@@ -73,7 +94,7 @@ public class EventRouter : IEventRouter
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "error trying to process event {0}", JsonSerializer.Serialize(eventData));
+            _logger.LogError(ex, "error trying to process event {0}", JsonSerializer.Serialize(events));
             throw;
         }
 
