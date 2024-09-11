@@ -13,9 +13,20 @@ namespace parallel.ef.core.Handlers
             _doctorService = doctorService;
         }
 
-        public async Task ProcessEvent(AddDoctorEvent updateDoctorEvent)
+        public async Task ProcessEvent(AddDoctorEvent addDoctorEvent)
         {
-            await _doctorService.UpdateDoctor(updateDoctorEvent.doctor);
+            await _doctorService.AddDoctor(addDoctorEvent.doctor, addDoctorEvent.FacilityCode);
         }
+
+        public async Task ProcessEvent(EventData eventData)
+        {
+            AddDoctorEvent addDoctorEvent = new AddDoctorEvent(eventData);
+            await _doctorService.AddDoctor(addDoctorEvent.doctor, addDoctorEvent.FacilityCode);
+        }
+
+        // public async Task ProcessEvent(EventData eventData)
+        // {
+        //     throw new NotImplementedException();
+        // }
     }
 }

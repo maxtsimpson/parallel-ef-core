@@ -1,6 +1,6 @@
 ﻿namespace parallel.ef.core.Model.Events
 {
-    public class UpdateDoctorEvent: IEventData
+    public class UpdateDoctorEvent: EventData
     {
         public UpdateDoctorEvent(string messageID, FacilityCode facilityCode, Doctor doctor)
         {
@@ -9,12 +9,7 @@
             this.doctor = doctor;
         }
 
-        public string MessageID { get; set; }
-        
-        public FacilityCode FacilityCode { get; set; }
-
         public Doctor doctor { get; }
 
-        public EventType EventType { get; } = EventType.UpdateDoctor;
     }
 }

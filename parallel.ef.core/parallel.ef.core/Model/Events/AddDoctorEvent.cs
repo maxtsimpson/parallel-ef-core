@@ -1,12 +1,18 @@
 ﻿namespace parallel.ef.core.Model.Events
 {
-    public class AddDoctorEvent : IEventData
+    public class AddDoctorEvent : EventData
     {
         public AddDoctorEvent(string messageID, FacilityCode facilityCode, Doctor doctor)
         {
-            MessageID = messageID;
-            FacilityCode = facilityCode;
+            this.MessageID = messageID;
+            this.FacilityCode = facilityCode;
             this.doctor = doctor;
+        }
+
+        public AddDoctorEvent(EventData eventData)
+        {
+            this.MessageID = eventData.MessageID;
+            this.FacilityCode = eventData.FacilityCode;
         }
 
         public string MessageID { get; set; }

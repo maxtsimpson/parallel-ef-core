@@ -11,10 +11,8 @@ namespace parallel.ef.core.Services
     {
         public static IServiceCollection AddHandlers(this IServiceCollection services)
         {
-            IDictionary<EventType, IEventHandler<IEventData>> _handlers = new Dictionary<EventType, IEventHandler<IEventData>>();
-
-            services.AddScoped<AddDoctorHandler>();
-            services.AddScoped<UpdateDoctorHandler>();
+            services.AddScoped<IEventHandler<AddDoctorEvent>,AddDoctorHandler>();
+            services.AddScoped<IEventHandler<UpdateDoctorEvent>,UpdateDoctorHandler>();
 
             
 

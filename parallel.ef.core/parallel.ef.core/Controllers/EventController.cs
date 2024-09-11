@@ -3,9 +3,11 @@ using System.Net;
 using parallel.ef.core.Model;
 using Swashbuckle.AspNetCore.Annotations;
 using parallel.ef.core.Services;
+using parallel.ef.core.Model.Events;
 
 namespace parallel.ef.core.Controllers
 {
+    [ApiController]
     public class EventController: ControllerBase
     {
         private readonly ILogger<EventController> _logger;
@@ -19,8 +21,7 @@ namespace parallel.ef.core.Controllers
 
         [HttpPost("PostMessageEvent")]
         [SwaggerOperation(Summary = "Post a message event for processing")]
-        //[ProducesResponseType(typeof(GetScriptListResult), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> PostMessage(IEventData eventData)
+        public async Task<ActionResult<EventData>> PostMessage(EventData eventData)
         {
             _logger.LogInformation("request message received");
 
